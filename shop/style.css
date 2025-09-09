@@ -85,12 +85,6 @@ button:hover {
   background: #444;
 }
 
-.button-cor {
-  display: flex;
-  background:transparent;
-  border:1px solid #2a2e36
-}
-
 .btn-primary-cart-icon {
   position: relative;
   display: flex;
