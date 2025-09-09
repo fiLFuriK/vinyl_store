@@ -262,8 +262,13 @@ button:active {
   }
 
   .btn-primary-cart-icon .badge {
-    font-size: 10px; 
-    padding: 1px 4px;
+    font-size: 10px;       
+    width: 14px;           
+    height: 14px;          
+    padding: 0;           
+    line-height: 16px;    
+    border-radius: 50%; 
+    text-align: center;
   }
 }
 
