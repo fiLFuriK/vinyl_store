@@ -198,6 +198,8 @@ button:active {
   background: #111;
   color: white;
   border: none;
+  width: 24px;
+  height: 24px;
   padding: 4px 8px;
   border-radius: 20px;
   cursor: pointer;
@@ -274,6 +276,12 @@ button:active {
     line-height: 16px;    
     border-radius: 50%; 
     text-align: center;
+  }
+
+  .cart-controls button {
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
   }
 }
 
