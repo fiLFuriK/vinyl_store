@@ -255,6 +255,45 @@
   }
 
   updateCartCount();
+
+// функционал для модального окна оформления заказа 
+    
+  const checkoutFromCart = document.getElementById("checkout-btn");
+  const checkoutModal = document.getElementById("checkout-modal");
+  const checkoutForm = document.getElementById("checkout-form");
+  const checkoutMessage = document.getElementById("checkout-message");
+  const closeCheckout = document.getElementById("close-checkout");
+
+  if (checkoutFromCart) {
+    checkoutFromCart.addEventListener("click", () => {
+      cartModal.style.display = "none"; // закрываем корзину
+      checkoutModal.style.display = "block"; // открываем заказ
+    });
+  }
+
+  if (closeCheckout) {
+    closeCheckout.addEventListener("click", () => {
+      checkoutModal.style.display = "none";
+    });
+  }
+
+  checkoutForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    checkoutForm.style.display = "none";
+    checkoutMessage.style.display = "block";
+
+    cart = [];
+    saveCart();
+    updateCartCount();
+
+    setTimeout(() => {
+      checkoutModal.style.display = "none";
+      checkoutForm.reset();
+      checkoutForm.style.display = "flex";
+      checkoutMessage.style.display = "none";
+    }, 2000);
+  });
 });
 </script>
 
