@@ -207,7 +207,7 @@ button:active {
   display: flex;    
   align-items: center;
   justify-content: center;
-  line-height: 1;
+  line-height: 20px;
   transition: background 0.3s;
 }
 
@@ -283,7 +283,7 @@ button:active {
     width: 20px;
     height: 20px;
     font-size: 12px;
-    line-height: 1;
+    line-height: 20px;
   }
 }
 
