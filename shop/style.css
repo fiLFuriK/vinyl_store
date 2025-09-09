@@ -109,7 +109,7 @@ button:hover {
   border-radius: 50%;
 }
 
-/* модальное окно */
+/* модальное окно корзины */
 .modal {
   display: none; 
   position: fixed;
@@ -200,5 +200,33 @@ button:hover {
   min-width: 20px;
   text-align: center;
   font-weight: bold;
+}
+
+/* модальное окно оформления заказа */
+
+#checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#checkout-form input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#checkout-form button {
+  background: #111;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#checkout-form button:hover {
+  background: #444;
 }
 
