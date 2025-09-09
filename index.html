@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vinyl STORE</title>
+  <base href="/shop/">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="header">
+    <h1 class="header__title">VINYL STORE</h1>
+     <nav class="row">
+      <button class="btn-primary-cart-icon" id="btn-open-cart" title="Открыть корзину">
+        Корзина
+        <span class="badge" id="cart-count">0</span>
+      </button>
+    </nav>
+  </header>
+  
+  
+
+  <main class="catalog">
+    <div class="product-card">
+      <img src="images/bowie.jpg" alt="David Bowie – The Man Who Sold The World"/>
+      <h2>David Bowie – The Man Who Sold The World</h2>
+      <p class="price">3500 ₽</p>
+      <button class = "add-to-cart">Добавить в корзину</button>
+    </div>
+
+    <div class="product-card">
+      <img src="images/love.jpg" alt="Love - Forever Changes">
+      <h2>Love - Forever Changes</h2>
+      <p class="price">3000 ₽</p>
+      <button class = "add-to-cart">Добавить в корзину</button>
+    </div>
+
+    <div class="product-card">
+      <img src="images/john.jpg" alt="Elton John – Goodbye Yellow Brick Road">
+      <h2>Elton John – Goodbye Yellow Brick Road</h2>
+      <p class="price">7000 ₽</p>
+     <button class = "add-to-cart">Добавить в корзину</button>
+    </div>
+    <div class="product-card">
+      <img src="images/him2.jpg" alt="HIM - Razorblade Romance">
+      <h2>HIM - Razorblade Romance</h2>
+      <p class="price">4000 ₽</p>
+      <button class = "add-to-cart">Добавить в корзину</button>
+    </div>
+    <div class="product-card">
+      <img src="images/7paca.jpg" alt="7раса – 1й Круг">
+      <h2>7раса – 1й Круг</h2>
+      <p class="price">2500 ₽</p>
+      <button class = "add-to-cart">Добавить в корзину</button>
+    </div>
+    <div class="product-card">
+      <img src="images/slivvrot.jpg" alt="Slipknot - Slipknot">
+      <h2>Slipknot - Slipknot</h2>
+      <p class="price">3000 ₽</p>
+     <button class = "add-to-cart">Добавить в корзину</button>
+    </div>
+    <div class="product-card">
+      <img src="images/ton.jpg" alt="Type O Negative – Bloody Kisses">
+      <h2>Type O Negative – Bloody Kisses</h2>
+      <p class="price">5500 ₽</p>
+      <button class = "add-to-cart">Добавить в корзину</button>
+    </div>
+    <div class="product-card">
+      <img src="images/psiheya.jpg" alt="Elton John – Goodbye Yellow Brick Road">
+      <h2>Психея - Психея</h2>
+      <p class="price">4500 ₽</p>
+      <button class = "add-to-cart">Добавить в корзину</button>
+    </div>
+    <div class="product-card">
+      <img src="images/him.jpg" alt="HIM – Greatest Lovesongs Vol. 666">
+      <h2>HIM – Greatest Lovesongs Vol. 666</h2>
+      <p class="price">4500 ₽</p>
+      <button class = "add-to-cart">Добавить в корзину</button>
+    </div>
+  </main>
+
+<!-- модальное окно для корзины -->
+<div class="modal" id="cart-modal">
+  <div class="modal-content">
+    <span class="close" id="close-cart">&times;</span>
+    <h2>Ваша корзина</h2>
+    <div id="cart-items"></div>
+    <p id="cart-total">Итого: 0 ₽</p>
+    <button id="checkout-btn">Оформить заказ</button>
+  </div>
+</div>
+
+ <!-- модальное окно для оформления заказа -->
+<div id="checkout-modal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="close-checkout">&times;</span>
+    <h2>Оформление заказа</h2>
+    <form id="checkout-form">
+      <label>
+        Имя:
+        <input type="text" name="firstName" required>
+      </label>
+      <label>
+        Фамилия:
+        <input type="text" name="lastName" required>
+      </label>
+      <label>
+        Адрес доставки:
+        <input type="text" name="address" required>
+      </label>
+      <label>
+        Телефон:
+        <input type="tel" name="phone" required>
+      </label>
+      <button type="submit">Создать заказ</button>
+    </form>
+    <div id="checkout-message" style="display:none; color: green; font-weight: bold;">
+      Заказ создан!
+    </div>
+  </div>
+</div> 
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+  const LS_KEY = "vinyl_cart_v1";
+  const cartCount = document.getElementById("cart-count");
+  const addButtons = document.querySelectorAll(".add-to-cart");
+  const cartBtn = document.getElementById("btn-open-cart");
+  const cartModal = document.getElementById("cart-modal");
+  const closeCart = document.getElementById("close-cart");
+  const cartItemsEl = document.getElementById("cart-items");
+  const cartTotalEl = document.getElementById("cart-total");
+
+  let cart = loadCart();
+
+  addButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const card = btn.closest(".product-card");
+      const title = card.querySelector("h2").textContent;
+      const price = parseInt(card.querySelector(".price").textContent);
+      const img = card.querySelector("img").src;
+
+      addToCart({ id: title, title, price, img });
+    });
+  });
+
+  cartBtn.addEventListener("click", () => {
+    renderCart();
+    cartModal.style.display = "block";
+  });
+
+  closeCart.addEventListener("click", () => {
+    cartModal.style.display = "none";
+  });
+
+  window.addEventListener("click", (e) => {
+    if (e.target === cartModal) {
+      cartModal.style.display = "none";
+    }
+  });
+
+  function addToCart(product) {
+    const ex = cart.find((p) => p.id === product.id);
+    if (ex) {
+      ex.qty += 1;
+    } else {
+      cart.push({ ...product, qty: 1 });
+    }
+    saveCart();
+    updateCartCount();
+  }
+
+  function renderCart() {
+  cartItemsEl.innerHTML = "";
+  let total = 0;
+
+  cart.forEach((item) => {
+    total += item.price * item.qty;
+
+    const div = document.createElement("div");
+    div.className = "cart-item";
+
+    div.innerHTML = `
+      <img src="${item.img}" alt="${item.title}">
+      <div class="cart-item-info">
+        <p class="cart-item-title">${item.title}</p>
+        <p class="cart-item-price">${item.price} ₽</p>
+      </div>
+      <div class="cart-controls">
+        <button class="decrease" data-id="${item.id}">−</button>
+        <span class="qty">${item.qty}</span>
+        <button class="increase" data-id="${item.id}">+</button>
+      </div>
+      <button class="remove-btn" data-id="${item.id}">✖</button>
+    `;
+
+    cartItemsEl.appendChild(div);
+  });
+
+  cartTotalEl.textContent = "Итого: " + total + " ₽";
+
+  // кнопки удаления
+  document.querySelectorAll(".remove-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      cart = cart.filter((p) => p.id !== btn.dataset.id);
+      saveCart();
+      updateCartCount();
+      renderCart();
+    });
+  });
+
+  // уменьшение количества товара
+  document.querySelectorAll(".decrease").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const item = cart.find((p) => p.id === btn.dataset.id);
+      if (item.qty > 1) {
+        item.qty -= 1;
+      } else {
+        cart = cart.filter((p) => p.id !== btn.dataset.id);
+      }
+      saveCart();
+      updateCartCount();
+      renderCart();
+    });
+  });
+
+  // увеличение количества товара
+  document.querySelectorAll(".increase").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const item = cart.find((p) => p.id === btn.dataset.id);
+      item.qty += 1;
+      saveCart();
+      updateCartCount();
+      renderCart();
+    });
+  });
+}
+
+
+  function updateCartCount() {
+    const totalQty = cart.reduce((sum, p) => sum + p.qty, 0);
+    cartCount.textContent = totalQty;
+  }
+
+  function saveCart() {
+    localStorage.setItem(LS_KEY, JSON.stringify(cart));
+  }
+
+  function loadCart() {
+    try {
+      return JSON.parse(localStorage.getItem(LS_KEY)) || [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  updateCartCount();
+
+// функционал для модального окна оформления заказа 
+    
+  const checkoutFromCart = document.getElementById("checkout-btn");
+  const checkoutModal = document.getElementById("checkout-modal");
+  const checkoutForm = document.getElementById("checkout-form");
+  const checkoutMessage = document.getElementById("checkout-message");
+  const closeCheckout = document.getElementById("close-checkout");
+
+  if (checkoutFromCart) {
+    checkoutFromCart.addEventListener("click", () => {
+      cartModal.style.display = "none"; // закрываем корзину
+      checkoutModal.style.display = "block"; // открываем заказ
+    });
+  }
+
+  if (closeCheckout) {
+    closeCheckout.addEventListener("click", () => {
+      checkoutModal.style.display = "none";
+    });
+  }
+
+  checkoutForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    checkoutForm.style.display = "none";
+    checkoutMessage.style.display = "block";
+
+    cart = [];
+    saveCart();
+    updateCartCount();
+
+    setTimeout(() => {
+      checkoutModal.style.display = "none";
+      checkoutForm.reset();
+      checkoutForm.style.display = "flex";
+      checkoutMessage.style.display = "none";
+    }, 2000);
+  });
+});
+</script>
+
+</body>
+</html>
