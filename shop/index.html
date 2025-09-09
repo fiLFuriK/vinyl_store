@@ -91,7 +91,144 @@
   </div>
 </div>
 
-  
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+  const LS_KEY = "vinyl_cart_v1";
+  const cartCount = document.getElementById("cart-count");
+  const addButtons = document.querySelectorAll(".add-to-cart");
+  const cartBtn = document.getElementById("btn-open-cart");
+  const cartModal = document.getElementById("cart-modal");
+  const closeCart = document.getElementById("close-cart");
+  const cartItemsEl = document.getElementById("cart-items");
+  const cartTotalEl = document.getElementById("cart-total");
+
+  let cart = loadCart();
+
+  addButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const card = btn.closest(".product-card");
+      const title = card.querySelector("h2").textContent;
+      const price = parseInt(card.querySelector(".price").textContent);
+      const img = card.querySelector("img").src;
+
+      addToCart({ id: title, title, price, img });
+    });
+  });
+
+  cartBtn.addEventListener("click", () => {
+    renderCart();
+    cartModal.style.display = "block";
+  });
+
+  closeCart.addEventListener("click", () => {
+    cartModal.style.display = "none";
+  });
+
+  window.addEventListener("click", (e) => {
+    if (e.target === cartModal) {
+      cartModal.style.display = "none";
+    }
+  });
+
+  function addToCart(product) {
+    const ex = cart.find((p) => p.id === product.id);
+    if (ex) {
+      ex.qty += 1;
+    } else {
+      cart.push({ ...product, qty: 1 });
+    }
+    saveCart();
+    updateCartCount();
+  }
+
+  function renderCart() {
+  cartItemsEl.innerHTML = "";
+  let total = 0;
+
+  cart.forEach((item) => {
+    total += item.price * item.qty;
+
+    const div = document.createElement("div");
+    div.className = "cart-item";
+
+    div.innerHTML = `
+      <img src="${item.img}" alt="${item.title}">
+      <div class="cart-item-info">
+        <p class="cart-item-title">${item.title}</p>
+        <p class="cart-item-price">${item.price} ₽</p>
+      </div>
+      <div class="cart-controls">
+        <button class="decrease" data-id="${item.id}">−</button>
+        <span class="qty">${item.qty}</span>
+        <button class="increase" data-id="${item.id}">+</button>
+      </div>
+      <button class="remove-btn" data-id="${item.id}">✖</button>
+    `;
+
+    cartItemsEl.appendChild(div);
+  });
+
+  cartTotalEl.textContent = "Итого: " + total + " ₽";
+
+  // кнопки удаления
+  document.querySelectorAll(".remove-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      cart = cart.filter((p) => p.id !== btn.dataset.id);
+      saveCart();
+      updateCartCount();
+      renderCart();
+    });
+  });
+
+  // уменьшение количества товара
+  document.querySelectorAll(".decrease").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const item = cart.find((p) => p.id === btn.dataset.id);
+      if (item.qty > 1) {
+        item.qty -= 1;
+      } else {
+        cart = cart.filter((p) => p.id !== btn.dataset.id);
+      }
+      saveCart();
+      updateCartCount();
+      renderCart();
+    });
+  });
+
+  // увеличение количества товара
+  document.querySelectorAll(".increase").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const item = cart.find((p) => p.id === btn.dataset.id);
+      item.qty += 1;
+      saveCart();
+      updateCartCount();
+      renderCart();
+    });
+  });
+}
+
+
+  function updateCartCount() {
+    const totalQty = cart.reduce((sum, p) => sum + p.qty, 0);
+    cartCount.textContent = totalQty;
+  }
+
+  function saveCart() {
+    localStorage.setItem(LS_KEY, JSON.stringify(cart));
+  }
+
+  function loadCart() {
+    try {
+      return JSON.parse(localStorage.getItem(LS_KEY)) || [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  updateCartCount();
+});
+</script>
+
 </body>
 </html>
 
