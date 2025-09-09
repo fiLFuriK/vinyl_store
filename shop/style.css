@@ -85,6 +85,10 @@ button:hover {
   background: #444;
 }
 
+button:active {
+  background: white;
+}
+
 .btn-primary-cart-icon {
   position: relative;
   display: flex;
