@@ -91,6 +91,33 @@
   </div>
 </div>
 
+ /* модальное окно для оформления заказа */
+<div id="checkout-modal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="close-checkout">&times;</span>
+    <h2>Оформление заказа</h2>
+    <form id="checkout-form">
+      <label>
+        Имя:
+        <input type="text" name="firstName" required>
+      </label>
+      <label>
+        Фамилия:
+        <input type="text" name="lastName" required>
+      </label>
+      <label>
+        Адрес доставки:
+        <input type="text" name="address" required>
+      </label>
+      <label>
+        Телефон:
+        <input type="tel" name="phone" required>
+      </label>
+      <button type="submit">Создать заказ</button>
+    </form>
+  </div>
+</div> 
+
 <script>
   document.addEventListener("DOMContentLoaded", () => {
   const LS_KEY = "vinyl_cart_v1";
