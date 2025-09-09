@@ -1,1 +1,116 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
 
+.header {
+  background-color: #111;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.header__title {
+  margin: 0;
+  font-size: 32px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  /* анимация появления заголовка при загрузке страницы */
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.row {
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+
+.catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  
+}
+
+.product-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 15px;
+  text-align: center;
+}
+
+.product-card img {
+  max-width: 100%;
+  border-radius: 6px;
+}
+
+.price {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+button {
+  background: #111;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #444;
+}
+
+.button-cor {
+  display: flex;
+  background:transparent;
+  border:1px solid #2a2e36
+}
+
+.btn-primary-cart-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px; 
+  background: transparent;
+  border: 1px solid #2a2e36;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.badge {
+  display: inline-block;
+  min-width: 20px;
+  padding: 2px 1px;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  background-color: gray;
+  border-radius: 50%;
+}
