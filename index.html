@@ -19,79 +19,86 @@
   </header>
   
   
-
-  <main class="catalog">
-    <div class="product-card">
+<main>
+  <section class="catalog">
+    <article class="product-card">
       <img src="images/bowie.jpg" alt="David Bowie – The Man Who Sold The World"/>
       <h2>David Bowie – The Man Who Sold The World</h2>
       <p class="price">3500 ₽</p>
       <button class = "add-to-cart">Добавить в корзину</button>
-    </div>
+    </article>
 
-    <div class="product-card">
+    <article class="product-card">
       <img src="images/love.jpg" alt="Love - Forever Changes">
       <h2>Love - Forever Changes</h2>
       <p class="price">3000 ₽</p>
       <button class = "add-to-cart">Добавить в корзину</button>
-    </div>
+    </article>
 
-    <div class="product-card">
+    <article class="product-card">
       <img src="images/john.jpg" alt="Elton John – Goodbye Yellow Brick Road">
       <h2>Elton John – Goodbye Yellow Brick Road</h2>
       <p class="price">7000 ₽</p>
      <button class = "add-to-cart">Добавить в корзину</button>
-    </div>
-    <div class="product-card">
+    </article>
+    
+    <article class="product-card">
       <img src="images/him2.jpg" alt="HIM - Razorblade Romance">
       <h2>HIM - Razorblade Romance</h2>
       <p class="price">4000 ₽</p>
       <button class = "add-to-cart">Добавить в корзину</button>
-    </div>
-    <div class="product-card">
+    </article>
+    
+    <article class="product-card">
       <img src="images/7paca.jpg" alt="7раса – 1й Круг">
       <h2>7раса – 1й Круг</h2>
       <p class="price">2500 ₽</p>
       <button class = "add-to-cart">Добавить в корзину</button>
-    </div>
-    <div class="product-card">
+    </article>
+    
+    <article class="product-card">
       <img src="images/slivvrot.jpg" alt="Slipknot - Slipknot">
       <h2>Slipknot - Slipknot</h2>
       <p class="price">3000 ₽</p>
      <button class = "add-to-cart">Добавить в корзину</button>
-    </div>
-    <div class="product-card">
+    </article>
+    
+    <article class="product-card">
       <img src="images/ton.jpg" alt="Type O Negative – Bloody Kisses">
       <h2>Type O Negative – Bloody Kisses</h2>
       <p class="price">5500 ₽</p>
       <button class = "add-to-cart">Добавить в корзину</button>
-    </div>
-    <div class="product-card">
+    </article>
+    
+    <article class="product-card">
       <img src="images/psiheya.jpg" alt="Elton John – Goodbye Yellow Brick Road">
       <h2>Психея - Психея</h2>
       <p class="price">4500 ₽</p>
       <button class = "add-to-cart">Добавить в корзину</button>
-    </div>
-    <div class="product-card">
+    </article>
+    
+    <article class="product-card">
       <img src="images/him.jpg" alt="HIM – Greatest Lovesongs Vol. 666">
       <h2>HIM – Greatest Lovesongs Vol. 666</h2>
       <p class="price">4500 ₽</p>
       <button class = "add-to-cart">Добавить в корзину</button>
-    </div>
-  </main>
+    </article>
+  </section>
+</main>
 
 <!-- модальное окно для корзины -->
-<div class="modal" id="cart-modal">
+<section class="modal" id="cart-modal">
   <div class="modal-content">
     <span class="close" id="close-cart">&times;</span>
     <h2>Ваша корзина</h2>
-    <div id="cart-items"></div>
+    <ul id="cart-items"></ul>
     <p id="cart-total">Итого: 0 ₽</p>
     <button id="checkout-btn">Оформить заказ</button>
   </div>
-</div>
+</section>
 
  <!-- модальное окно для оформления заказа -->
-<div id="checkout-modal" class="modal">
+<section id="checkout-modal" class="modal">
   <div class="modal-content">
     <span class="close" id="close-checkout">&times;</span>
     <h2>Оформление заказа</h2>
@@ -114,11 +121,12 @@
       </label>
       <button type="submit">Создать заказ</button>
     </form>
+    
     <div id="checkout-message" style="display:none; color: green; font-weight: bold;">
       Заказ создан!
     </div>
   </div>
-</div> 
+</section> 
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
@@ -177,10 +185,10 @@
   cart.forEach((item) => {
     total += item.price * item.qty;
 
-    const div = document.createElement("div");
-    div.className = "cart-item";
+    const li = document.createElement("li");
+    li.className = "cart-item";
 
-    div.innerHTML = `
+    li.innerHTML = `
       <img src="${item.img}" alt="${item.title}">
       <div class="cart-item-info">
         <p class="cart-item-title">${item.title}</p>
@@ -194,7 +202,7 @@
       <button class="remove-btn" data-id="${item.id}">✖</button>
     `;
 
-    cartItemsEl.appendChild(div);
+    cartItemsEl.appendChild(li);
   });
 
   cartTotalEl.textContent = "Итого: " + total + " ₽";
